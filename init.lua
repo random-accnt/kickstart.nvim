@@ -20,7 +20,7 @@
 =====================================================================
 =====================================================================
 
-What is Kickstart?
+What is Kickstart? And how is kickstart?
 
   Kickstart.nvim is *not* a distribution.
 
