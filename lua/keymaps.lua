@@ -76,5 +76,30 @@ vim.keymap.set('n', '<leader>sn', function()
 end, { desc = '[S]earch [N]eovim files' })
 
 -- [[ Terminal ]]
-vim.keymap.set('n', '<M-t>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Open vertical [T]erminal' })
-vim.keymap.set('t', '<M-t>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Close vertical [T]erminal' })
+vim.keymap.set('n', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Open vertical [T]erminal' })
+vim.keymap.set('t', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Close vertical [T]erminal' })
+
+-- [[ Harpoon ]]
+local harpoon = require 'harpoon'
+harpoon:setup()
+
+vim.keymap.set('n', '<leader>a', function()
+  harpoon:list():append()
+end)
+vim.keymap.set('n', '<C-h>', function()
+  harpoon.ui:toggle_quick_menu(harpoon:list())
+end)
+vim.keymap.set('n', '<M-S-P>', function()
+  harpoon:list():prev()
+end)
+vim.keymap.set('n', '<M-S-N>', function()
+  harpoon:list():next()
+end)
+
+-- other
+local util = require 'util'
+vim.keymap.set('n', '<leader>er', function()
+  if vim.bo.filetype == 'go' then
+    util.printErrGo()
+  end
+end)
