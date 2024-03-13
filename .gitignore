@@ -2,7 +2,7 @@ tags
 test.sh
 .luarc.json
 nvim
-*.lock
+Pipfile.lock
 .stylua.toml
 
 spell/
