@@ -115,4 +115,13 @@ return {
       'rcarriga/nvim-notify',
     },
   },
+
+  -- [[ PROGRAMMING TOOLS ]]
+  {
+    'yanskun/gotests.nvim',
+    ft = 'go',
+    config = function()
+      require('gotests').setup()
+    end,
+  },
 }
