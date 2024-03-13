@@ -103,3 +103,9 @@ vim.keymap.set('n', '<leader>er', function()
     util.printErrGo()
   end
 end)
+
+-- [[ Magma ]]
+vim.keymap.set('n', '<leader>rr', '<cmd>MagmaEvaluateLine<CR>', { desc = 'Evaluate single line in jupyter notebook' })
+vim.keymap.set('n', '<leader>rc', '<cmd>MagmaReevaluateCell<CR>', { desc = 'Evaluate cell in jupyter notebook' })
+vim.keymap.set('n', '<leader>rd', '<cmd>MagmaDelete<CR>', { desc = 'Delete cell in jupyter notebook' })
+vim.keymap.set('v', '<leader>rr', ':<C-u><CR>:MagmaEvaluateVisual<CR>', { desc = 'Evaluate selected lines in jupyter notebook' })

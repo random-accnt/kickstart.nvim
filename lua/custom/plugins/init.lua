@@ -14,7 +14,7 @@ return {
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
       require('nvim-autopairs').setup {}
-      -- If you want to automatically add `(` after selecting a function or method
+      -- If you want to automatically add `(` after selecting a function or method local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp = require 'cmp'
       cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())
@@ -43,5 +43,76 @@ return {
       vim.g.mkdp_filetypes = { 'markdown' }
     end,
     ft = { 'markdown' },
+  },
+  {
+    'dccsillag/magma-nvim',
+    init = function()
+      return ':UpdateRemotePlugins'
+    end,
+  },
+  {
+    'linux-cultist/venv-selector.nvim',
+    dependencies = { 'neovim/nvim-lspconfig', 'nvim-telescope/telescope.nvim', 'mfussenegger/nvim-dap-python' },
+    opts = {
+      -- Your options go here
+      -- name = "venv",
+      -- auto_refresh = false
+    },
+    event = 'VeryLazy', -- Optional: needed only if you want to type `:VenvSelect` without a keymapping
+    keys = {
+      -- Keymap to open VenvSelector to pick a venv.
+      { '<leader>sv', '<cmd>VenvSelect<cr>' },
+      -- Keymap to retrieve the venv from a cache (the one previously used for the same project directory).
+      { '<leader>sc', '<cmd>VenvSelectCached<cr>' },
+    },
+  },
+  {
+    'folke/noice.nvim',
+    event = 'VeryLazy',
+    opts = {
+      cmdline = {
+        format = {
+          cmdline = { icon = '>' },
+          search_down = { icon = '' },
+          search_up = { icon = '' },
+          filter = { icon = '' },
+          lua = { icon = '☾' },
+          help = { icon = '?' },
+        },
+      },
+      format = {
+        level = {
+          icons = {
+            error = '✖',
+            warn = '▼',
+            info = '●',
+          },
+        },
+      },
+      popupmenu = {
+        kind_icons = false,
+      },
+      inc_rename = {
+        cmdline = {
+          format = {
+            IncRename = { icon = 'r' },
+          },
+        },
+      },
+      messages = {
+        enabled = false,
+      },
+      notify = {
+        enabled = false,
+      },
+    },
+    dependencies = {
+      -- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+      'MunifTanjim/nui.nvim',
+      -- OPTIONAL:
+      --   `nvim-notify` is only needed, if you want to use the notification view.
+      --   If not available, we use `mini` as the fallback
+      'rcarriga/nvim-notify',
+    },
   },
 }
