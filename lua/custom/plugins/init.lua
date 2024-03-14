@@ -13,7 +13,9 @@ return {
     -- Optional dependency
     dependencies = { 'hrsh7th/nvim-cmp' },
     config = function()
-      require('nvim-autopairs').setup {}
+      require('nvim-autopairs').setup {
+        disable_filetype = { 'TelescopePrompt', 'guihua', 'guihua_rust', 'clap_input' },
+      }
       -- If you want to automatically add `(` after selecting a function or method local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
       local cmp = require 'cmp'
@@ -81,12 +83,55 @@ return {
     event = { 'CmdlineEnter' },
     ft = { 'go', 'gomod' },
     build = ':lua require("go.install").update_all_sync()', -- if you need to install/update all binaries
+    opts = {
+      lsp_cfg = false,
+    },
   },
   {
     'yanskun/gotests.nvim',
     ft = 'go',
     config = function()
       require('gotests').setup()
+    end,
+  },
+  {
+    'ray-x/navigator.lua',
+    dependencies = {
+      'ray-x/guihua.lua',
+      'neovim/nvim-lspconfig',
+    },
+    config = function()
+      local util = require 'navigator.util'
+      local remap = util.binding_remap
+      local function fallback_keymap(key)
+        -- when handler failed fallback to key
+        vim.schedule(function()
+          print('fallback to key', key)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), 'n', true)
+        end)
+      end
+
+      local function fallback_fn(key)
+        return function()
+          fallback_keymap(key)
+        end
+      end
+
+      require('navigator').setup {
+        mason = true,
+        default_mapping = false,
+        -- TODO: more in ~/.local/share/nvim/lazy/navigator.lua/
+        keymaps = {
+          { key = 'gr', func = require('navigator.reference').async_ref, desc = '[G]o to [R]ererences' },
+          { key = 'gd', func = remap(require('navigator.definition').definition, 'gd'), desc = '[G]o to [D]efinition' },
+          {
+            key = 'gD',
+            func = vim.lsp.buf.declaration,
+            desc = 'declaration',
+            fallback = fallback_fn 'gD',
+          }, -- fallback used
+        },
+      }
     end,
   },
 }

@@ -365,6 +365,8 @@ require('lazy').setup {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
 
+      local go_cfg = require('go.lsp').config()
+
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.
       --
@@ -375,8 +377,7 @@ require('lazy').setup {
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        -- clangd = {},
-        gopls = {},
+        gopls = { go_cfg },
         pyright = {
           settings = {
             python = {
@@ -388,7 +389,7 @@ require('lazy').setup {
         },
         tsserver = {},
         bashls = {},
-        --
+        marksman = {},
 
         lua_ls = {
           -- cmd = {...},
@@ -442,7 +443,12 @@ require('lazy').setup {
             -- by the server configuration above. Useful when disabling
             -- certain features of an LSP (for example, turning off formatting for tsserver)
             server.capabilities = vim.tbl_deep_extend('force', {}, capabilities, server.capabilities or {})
-            require('lspconfig')[server_name].setup(server)
+
+            -- WARN: delete if navigator removed
+            -- don't setup gopls (navigator does it)
+            if server_name ~= 'gopls' then
+              require('lspconfig')[server_name].setup(server)
+            end
           end,
         },
       }
@@ -462,6 +468,7 @@ require('lazy').setup {
         -- Conform can also run multiple formatters sequentially
         python = { 'isort', 'black' },
         sh = { 'beautysh' },
+        go = { 'goimports' },
         --
         -- You can use a sub-list to tell conform to run *until* a formatter
         -- is found.
@@ -655,7 +662,7 @@ require('lazy').setup {
   --  Here are some example plugins that I've included in the kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
