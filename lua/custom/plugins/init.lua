@@ -120,8 +120,8 @@ return {
       require('navigator').setup {
         mason = true,
         default_mapping = false,
-        -- TODO: more in ~/.local/share/nvim/lazy/navigator.lua/
         keymaps = {
+          -- Search / go to stuff
           { key = 'gr', func = require('navigator.reference').async_ref, desc = '[G]o to [R]ererences' },
           { key = 'gd', func = remap(require('navigator.definition').definition, 'gd'), desc = '[G]o to [D]efinition' },
           {
@@ -130,6 +130,38 @@ return {
             desc = 'declaration',
             fallback = fallback_fn 'gD',
           }, -- fallback used
+          { key = '<leader>sW', func = require('navigator.workspace').workspace_symbol_live, desc = '[S]earh [W]orkspace' },
+          { key = '<leader>k', func = remap(require('navigator.definition').definition_preview, 'gp'), desc = 'definition_preview' }, -- paste
+
+          -- Code actions
+          {
+            key = '<Space>ca',
+            mode = 'n',
+            func = require('navigator.codeAction').code_action,
+            desc = '[C]ode [A]ction',
+          },
+          {
+            key = '<Space>cl',
+            mode = 'n',
+            func = require('navigator.codelens').run_action,
+            desc = '[C]ode [L]ens action',
+          },
+
+          -- Diagnostics
+          { key = '<leader>dt', func = require('navigator.diagnostics').toggle_diagnostics, desc = '[D]iagnostics [T]oggle' },
+          { key = '<leader>dL', func = require('navigator.diagnostics').show_diagnostics, desc = '[D]iagnostics [L]ine' },
+          { key = '<leader>dn', func = vim.diagnostic.goto_next, desc = '[D]iagnostics [N]ext' },
+          { key = '<leader>dp', func = vim.diagnostic.goto_prev, desc = '[D]iagnostics [P]rev' },
+          {
+            key = '<Leader>di',
+            func = require('navigator.cclshierarchy').incoming_calls,
+            desc = '[D]iagnostics - [I]ncomming calls',
+          },
+          {
+            key = '<Leader>do',
+            func = require('navigator.cclshierarchy').outgoing_calls,
+            desc = '[D]iagnostics - [O]utgoing calls',
+          },
         },
       }
     end,
