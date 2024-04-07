@@ -59,6 +59,8 @@ vim.opt.scrolloff = 10
 -- tab size
 vim.opt.tabstop = 4
 
+vim.g.markdown_fenced_languages = { 'python', 'go' }
+
 -- Magma config
 vim.g.magma_image_provider = 'kitty'
 vim.g.python3_host_prog = '/home/jirka/.local/share/virtualenvs/nvim-zUhPJZW9/bin/python3'
@@ -390,6 +392,12 @@ require('lazy').setup {
         tsserver = {},
         bashls = {},
         marksman = {},
+        html = {
+          format = {
+            templating = true,
+          },
+          filetypes = { 'html', 'htmldjango' },
+        },
 
         lua_ls = {
           -- cmd = {...},

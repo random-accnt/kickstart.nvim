@@ -75,6 +75,9 @@ vim.keymap.set('n', '<leader>sn', function()
   builtin.find_files { cwd = vim.fn.stdpath 'config' }
 end, { desc = '[S]earch [N]eovim files' })
 
+-- Telescope neoclip
+vim.keymap.set('n', '<leader>sc', '<cmd>Telescope neoclip<CR>', { desc = '[S]earch neo[C]lip (yank history)' })
+
 -- [[ Terminal ]]
 vim.keymap.set('n', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Open vertical [T]erminal' })
 vim.keymap.set('t', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Close vertical [T]erminal' })
@@ -109,3 +112,7 @@ vim.keymap.set('n', '<leader>rr', '<cmd>MagmaEvaluateLine<CR>', { desc = 'Evalua
 vim.keymap.set('n', '<leader>rc', '<cmd>MagmaReevaluateCell<CR>', { desc = 'Evaluate cell in jupyter notebook' })
 vim.keymap.set('n', '<leader>rd', '<cmd>MagmaDelete<CR>', { desc = 'Delete cell in jupyter notebook' })
 vim.keymap.set('v', '<leader>rr', ':<C-u><CR>:MagmaEvaluateVisual<CR>', { desc = 'Evaluate selected lines in jupyter notebook' })
+
+-- [[ Snippets ]]
+vim.keymap.set('v', '<leader>rs', ':SnipRun<CR>', { desc = '[R]un [S]nippet' })
+vim.keymap.set({ 'v', 'n' }, '<leader>rC', '<cmd>SnipClose<CR>', { desc = '[R]un [S]nippet' })
