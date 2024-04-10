@@ -79,8 +79,35 @@ end, { desc = '[S]earch [N]eovim files' })
 vim.keymap.set('n', '<leader>sc', '<cmd>Telescope neoclip<CR>', { desc = '[S]earch neo[C]lip (yank history)' })
 
 -- [[ Terminal ]]
-vim.keymap.set('n', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Open vertical [T]erminal' })
-vim.keymap.set('t', '<M-v>', '<cmd>ToggleTerm size=50 direction=vertical<CR>', { desc = 'Close vertical [T]erminal' })
+local fterm = require 'FTerm'
+local runners = { lua = 'lua', python = 'python', go = 'go' }
+local gitui = require('FTerm'):new {
+  ft = 'fterm_gitui',
+  cmd = 'gitui',
+  dimensions = {
+    height = 0.9,
+    width = 0.9,
+  },
+}
+
+vim.keymap.set({ 'n', 't' }, '<M-t>', function()
+  fterm.toggle()
+end, { desc = '[T]oggle floating terminal' })
+
+vim.keymap.set('n', '<leader>tr', function()
+  local buf = vim.api.nvim_buf_get_name(0)
+  local ftype = vim.filetype.match { filename = buf }
+  local exec = runners[ftype]
+  if exec ~= nil then
+    require('FTerm').scratch { cmd = { exec, buf } }
+  end
+end, { desc = '[T]erminal - [R]un current file' })
+
+vim.keymap.set('n', '<leader>tg', function()
+  gitui:toggle()
+end, { desc = '[T]erminal - run [G]itui' })
+
+vim.api.nvim_create_user_command('FTermExit', fterm.exit, { bang = true })
 
 -- [[ Harpoon ]]
 local harpoon = require 'harpoon'
