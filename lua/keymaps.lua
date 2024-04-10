@@ -89,6 +89,12 @@ local gitui = require('FTerm'):new {
     width = 0.9,
   },
 }
+local secondary_term = fterm:new {
+  dimensions = {
+    height = 0.9,
+    width = 0.9,
+  },
+}
 
 vim.keymap.set({ 'n', 't' }, '<M-t>', function()
   fterm.toggle()
@@ -106,6 +112,10 @@ end, { desc = '[T]erminal - [R]un current file' })
 vim.keymap.set('n', '<leader>tg', function()
   gitui:toggle()
 end, { desc = '[T]erminal - run [G]itui' })
+
+vim.keymap.set({ 'n', 't' }, '<M-S-T>', function()
+  secondary_term:toggle()
+end, { desc = '[T]erminal - [T]oggle secondary terminal' })
 
 vim.api.nvim_create_user_command('FTermExit', fterm.exit, { bang = true })
 
