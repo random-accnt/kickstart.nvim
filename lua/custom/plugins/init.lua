@@ -4,6 +4,18 @@
 -- See the kickstart.nvim README for more information
 return {
   {
+<<<<<<< HEAD
+=======
+    'numToStr/FTerm.nvim',
+    opts = {
+      dimensions = {
+        height = 0.9,
+        width = 0.9,
+      },
+    },
+  },
+  {
+>>>>>>> 35bb272 (small changes)
     'AckslD/nvim-neoclip.lua',
     requires = {
       -- you'll need at least one of these
@@ -24,11 +36,14 @@ return {
         'Terminal',
       },
     },
+<<<<<<< HEAD
   },
   {
     'akinsho/toggleterm.nvim',
     version = '*',
     opts = {},
+=======
+>>>>>>> 35bb272 (small changes)
   },
   {
     'windwp/nvim-autopairs',
