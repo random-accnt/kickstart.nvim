@@ -4,6 +4,9 @@
 -- See the kickstart.nvim README for more information
 return {
   {
+    'anuvyklack/hydra.nvim',
+  },
+  {
     'numToStr/FTerm.nvim',
     opts = {
       dimensions = {
@@ -190,8 +193,6 @@ return {
           -- Diagnostics
           { key = '<leader>dt', func = require('navigator.diagnostics').toggle_diagnostics, desc = '[D]iagnostics [T]oggle' },
           { key = '<leader>dL', func = require('navigator.diagnostics').show_diagnostics, desc = '[D]iagnostics [L]ine' },
-          { key = '<leader>dn', func = vim.diagnostic.goto_next, desc = '[D]iagnostics [N]ext' },
-          { key = '<leader>dp', func = vim.diagnostic.goto_prev, desc = '[D]iagnostics [P]rev' },
           {
             key = '<Leader>di',
             func = require('navigator.cclshierarchy').incoming_calls,

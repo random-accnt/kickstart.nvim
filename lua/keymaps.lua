@@ -1,3 +1,6 @@
+local Hydra = require 'hydra'
+local cmd = require('hydra.keymap-util').cmd
+
 -- [[ Basic Keymaps ]]
 --  See `:help vim.keymap.set()`
 
@@ -10,9 +13,17 @@ vim.keymap.set('n', '<leader>w', '<cmd>wa<CR>', { desc = 'Save all' })
 vim.keymap.set('n', '<leader>q', '<cmd>q<CR>', { desc = 'Save all' })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous [D]iagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next [D]iagnostic message' })
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' })
+Hydra {
+  name = 'Diagnostics',
+  mode = 'n',
+  body = '<leader>d',
+  heads = {
+    { 'p', vim.diagnostic.goto_prev, { desc = 'Go to [P]revious [D]iagnostic message' } },
+    { 'n', vim.diagnostic.goto_next, { desc = 'Go to [N]ext [D]iagnostic message' } },
+    { 'e', vim.diagnostic.open_float, { desc = 'Show diagnostic [E]rror messages' } },
+  },
+}
+
 vim.keymap.set('n', '<leader>E', vim.diagnostic.setloclist, { desc = 'Open diagnostic Quickfix list' })
 
 -- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
@@ -49,7 +60,7 @@ vim.keymap.set('n', '<leader>sw', builtin.grep_string, { desc = '[S]earch curren
 vim.keymap.set('n', '<leader>sg', builtin.live_grep, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sd', builtin.diagnostics, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sr', builtin.resume, { desc = '[S]earch [R]esume' })
-vim.keymap.set('n', '<leader>s.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
+vim.keymap.set('n', '<leader>.', builtin.oldfiles, { desc = '[S]earch Recent Files ("." for repeat)' })
 vim.keymap.set('n', '<leader><leader>', builtin.buffers, { desc = '[ ] Find existing buffers' })
 
 -- Slightly advanced example of overriding default behavior and theme
@@ -123,18 +134,41 @@ vim.api.nvim_create_user_command('FTermExit', fterm.exit, { bang = true })
 local harpoon = require 'harpoon'
 harpoon:setup()
 
-vim.keymap.set('n', '<leader>a', function()
-  harpoon:list():append()
-end)
-vim.keymap.set('n', '<C-h>', function()
-  harpoon.ui:toggle_quick_menu(harpoon:list())
-end)
-vim.keymap.set('n', '<M-S-P>', function()
-  harpoon:list():prev()
-end)
-vim.keymap.set('n', '<M-S-N>', function()
-  harpoon:list():next()
-end)
+Hydra {
+  name = 'Harpoon',
+  mode = 'n',
+  body = '<leader>h',
+  heads = {
+    {
+      'n',
+      function()
+        harpoon:list():next { ui_nav_wrap = true }
+      end,
+      { desc = '[H]arpoon [N]ext' },
+    },
+    {
+      'p',
+      function()
+        harpoon:list():prev { ui_nav_wrap = true }
+      end,
+      { desc = '[H]arpoon [P]rev' },
+    },
+    {
+      'a',
+      function()
+        harpoon:list():add()
+      end,
+      { desc = '[H]arpoon [A]dd' },
+    },
+    {
+      'h',
+      function()
+        harpoon.ui:toggle_quick_menu(harpoon:list())
+      end,
+      { desc = '[H]arpoon [H]arpoon menu' },
+    },
+  },
+}
 
 -- other
 local util = require 'util'
