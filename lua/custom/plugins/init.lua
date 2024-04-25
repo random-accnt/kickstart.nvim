@@ -7,6 +7,12 @@ return {
     'anuvyklack/hydra.nvim',
   },
   {
+    'chentoast/marks.nvim',
+    opts = {
+      default_mappings = false,
+    },
+  },
+  {
     'numToStr/FTerm.nvim',
     opts = {
       dimensions = {

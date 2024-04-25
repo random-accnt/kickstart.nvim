@@ -49,6 +49,23 @@ vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right win
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
+-- [[ Marks ]]
+vim.keymap.set('n', 'dm-', '<Plug>(Marks-deleteline)', { remap = true, desc = '[M]ark [D]elete on line' })
+vim.keymap.set('n', 'dm', '<Plug>(Marks-delete)', { remap = true, desc = '[M]ark [D]elete letter mark' })
+vim.keymap.set('n', 'm,', '<Plug>(Marks-setnext)', { remap = true, desc = '[M]ark set next' })
+vim.keymap.set('n', 'm:', '<Plug>(Marks-preview)', { remap = true, desc = '[M]ark set next' })
+
+Hydra {
+  name = 'Marks',
+  mode = 'n',
+  body = 'gm',
+  heads = {
+    { 'n', "<cmd>lua require'marks'.next()<cr>", { opts = '[G]o to [M]ark - [N]ext' } },
+    { 'p', "<cmd>lua require'marks'.prev()<cr>", { opts = '[G]o to [M]ark - [P]rev' } },
+    { 'm', "<cmd>lua require'marks'.toggle()<cr>", { opts = '[G]o to [M]ark - toggle current' } },
+  },
+}
+
 -- [[ Telescope ]]
 -- See `:help telescope.builtin`
 local builtin = require 'telescope.builtin'
